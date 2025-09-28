@@ -1,37 +1,29 @@
 # Telegram Leech Bot
 
-This is a simple Telegram bot that can "leech" messages from public channels and send them to the chat where the command is used.
+This is a simple Telegram bot that can "leech" files from both **direct download links** and **Telegram channel messages**.
 
-## How to set up and run the bot
+## How it Works
+*   **Direct Links:** You provide a direct URL to a file (e.g., `http://example.com/file.zip`), and the bot downloads it to the server and then uploads it to your Telegram chat.
+*   **Telegram Links:** You provide a link to a message in a Telegram channel. The bot will fetch the media or text from that message and send it to you. **Important:** For this to work, the bot must be a member of the source channel.
+
+## How to Set Up and Run the Bot
 
 ### 1. Prerequisites
-
 *   A VPS or any machine that can run Python scripts 24/7.
-*   Python 3.6+ installed.
+*   Python 3.8+ installed.
 *   A Telegram account.
 
-### 2. Getting your Telegram API Credentials
-
-To run this bot, you need three credentials from Telegram: `API_ID`, `API_HASH`, and `BOT_TOKEN`.
-
-#### a. Get `API_ID` and `API_HASH`
-
-1.  Go to [my.telegram.org](https://my.telegram.org) and log in with your Telegram account.
-2.  Click on **API development tools**.
-3.  Fill in the "App title" and "Short name" fields. You can enter anything you like.
-4.  Click on **Create application**.
-5.  You will now see your `api_id` and `api_hash`. Keep them safe.
-
-#### b. Get `BOT_TOKEN`
+### 2. Getting your Bot Token
+To run this bot, you only need one credential from Telegram: your `BOT_TOKEN`.
 
 1.  Open your Telegram app and search for **@BotFather**.
 2.  Start a chat with BotFather and send the `/newbot` command.
 3.  Follow the instructions to create a new bot. You will need to give it a name and a username.
-4.  Once your bot is created, BotFather will give you a **token**. This is your `BOT_TOKEN`.
+4.  Once your bot is created, BotFather will give you a **token**. This is your `BOT_TOKEN`. Keep it safe.
 
 ### 3. Setting up the Bot on Your Server
 
-1.  **Download the bot files** to your VPS.
+1.  **Download the bot files** to your VPS:
     *   `bot.py`
     *   `requirements.txt`
 
@@ -42,16 +34,14 @@ To run this bot, you need three credentials from Telegram: `API_ID`, `API_HASH`,
 
 3.  **Configure your credentials:**
     *   Open the `bot.py` file with a text editor.
-    *   Find these lines near the top of the file:
+    *   Find this line near the top of the file:
         ```python
         # --- IMPORTANT ---
-        # Replace these with your actual credentials
-        API_ID = 1234567  # YOUR_API_ID
-        API_HASH = 'YOUR_API_HASH'
+        # Replace this with your actual Bot Token
         BOT_TOKEN = 'YOUR_BOT_TOKEN'
         # --- IMPORTANT ---
         ```
-    *   Replace the placeholder values (`1234567`, `'YOUR_API_HASH'`, and `'YOUR_BOT_TOKEN'`) with the actual credentials you obtained in **Step 2**.
+    *   Replace the placeholder value (`'YOUR_BOT_TOKEN'`) with the actual token you got from BotFather.
 
 ### 4. Running the Bot
 
@@ -65,11 +55,18 @@ To run this bot, you need three credentials from Telegram: `API_ID`, `API_HASH`,
 ### 5. How to Use the Bot
 
 1.  Find your bot on Telegram (the one you created with BotFather).
-2.  Send the `/start` command to see the welcome message.
-3.  To leech a message, use the `/leech` command followed by the link to the message.
+2.  Send the `/start` command to see the welcome message and usage instructions.
+3.  To leech a file or message, use the `/leech` command followed by the link.
 
-    **Example:** `/leech https://t.me/some_public_channel/12345`
+    **Example 1: Direct Download Link**
+    ```
+    /leech http://speed.hetzner.de/100MB.bin
+    ```
 
-The bot will then download the media or copy the text from that message and send it to you.
+    **Example 2: Telegram Message Link**
+    (Remember to add your bot to the channel `some_public_channel` first)
+    ```
+    /leech https://t.me/some_public_channel/12345
+    ```
 
-**Note:** This bot can only leech from public channels or chats where your bot has been added. For private channels, the account associated with your `API_ID` and `API_HASH` must be a member of that channel.
+The bot will show a progress status and then send you the file.
